@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/halo">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+		import flash.display.Sprite;
+		import flash.events.Event;
+		import flash.events.MouseEvent;
+		
+		[Bindable]
+		public var label:String = '111';
+		[Bindable]
+		public var v:String = 'ggg';
+		
+		public var target:HitTestController;
+		
+		private function onClickHandler():void {
+			var evt:Event = new Event( 'btnEvt' );
+			this.dispatchEvent( evt );
+		}
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="btnEvt", type="flash.events.Event")]
+	</fx:Metadata>
+	
+	<s:Button x="0" y="0" label="{label}" click="onClickHandler()"></s:Button>
+	<s:Button x="0" y="20" label="{v}" click="onClickHandler()"></s:Button>
+</s:Group>

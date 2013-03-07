@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:my="components.*"
+			   applicationComplete="run()">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.events.Event;
+			import components.Button1;
+			import flash.net.FileReference;
+			import flash.net.SharedObject;
+			import mx.effects.Effect;
+			import PhysicsEngine.Effect.Friction;
+			import PhysicsEngine.Effect.Gravity;
+			import PhysicsEngine.Effect.Spring;
+			import PhysicsEngine.RigidityObject;
+			
+			public var b1:Ball;
+			public var b2:Ball;
+			
+			function run():void {
+				// var bc:MulBallController = new MulBallController();
+				// var bc:TwoBallController = new TwoBallController();
+				// var bc:HitTestController = new HitTestController();
+				// var bc:HitTestController2 = new HitTestController2();
+				// this.addElement( bc );
+				
+				b1 = new Ball( 10, ( Math.random() * 255 << 16 | Math.random() * 255 << 8 | Math.random() * 255 ) );
+				b1.x = b1.y = 100;
+				b1.speed = 0;
+				b1.angle = 0;
+				b2 = new Ball( 20, ( Math.random() * 255 << 16 | Math.random() * 255 << 8 | Math.random() * 255 ) );
+				b2.x = b2.y = 200;
+				b2.speed = 100;
+				b2.angle = 45;
+				b2.ro = new RigidityObject( b2 );
+				b2.ro.addEffect( new Gravity( 10 ) );
+				b2.ro.addEffect( new Spring( 0.1 ) );
+				b2.ro.addEffect( new Friction( 0.95 ) );
+				
+				this.addElement( b1 );
+				this.addElement( b2 );
+				
+				this.addEventListener( Event.ENTER_FRAME, this.onEnterFrame );
+			}
+			
+			public function onEnterFrame( event:flash.events.Event ):void
+			{
+				b2.ro.affect( b1 );
+			}
+			
+			public function onBtnEvtHandler( evt:flash.events.Event ):void
+			{
+				var fileR:FileReference = new FileReference();
+				fileR.browse();
+				fileR.addEventListener( Event.SELECT, function( evt:Event ):void {
+						fileR.load();
+						fileR.addEventListener( Event.COMPLETE, function( evt:Event ):void {
+							trace( evt.target.data );
+						} );
+				} );
+			}
+			
+		]]>
+	</fx:Script>
+	
+</s:Application>
